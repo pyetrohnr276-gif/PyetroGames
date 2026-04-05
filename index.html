@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyetroHNR🐥 - Jogue Agora!</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #0f0f1e;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #667eea, #764ba2, #f0932b);
+            padding: 90px 20px;
+            text-align: center;
+            position: relative;
+        }
+        h1 {
+            font-size: 3.8rem;
+            text-shadow: 0 0 25px rgba(255,255,255,0.6);
+        }
+        .subtitle { font-size: 1.5rem; opacity: 0.95; margin-top: 10px; }
+
+        nav {
+            background: #1a1a2e;
+            padding: 18px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 3px solid #667eea;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        nav a:hover { color: #f0932b; }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 50px 20px;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 30px;
+        }
+
+        .game-card {
+            background: #16213e;
+            border-radius: 18px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            border: 2px solid #334155;
+        }
+        .game-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 50px rgba(102, 126, 234, 0.4);
+            border-color: #667eea;
+        }
+        .game-card img {
+            width: 100%;
+            height: 210px;
+            object-fit: cover;
+        }
+        .game-info {
+            padding: 22px;
+        }
+        .game-info h3 {
+            color: #f0932b;
+            margin-bottom: 12px;
+        }
+        .play-btn {
+            background: #f0932b;
+            color: #000;
+            border: none;
+            padding: 14px 35px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.15rem;
+            margin-top: 15px;
+            transition: 0.3s;
+        }
+        .play-btn:hover {
+            background: #ffcc00;
+            transform: scale(1.05);
+        }
+
+        /* Modal do Jogo */
+        #gameModal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.97);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .game-frame {
+            background: #111827;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 0 60px rgba(102, 126, 234, 0.7);
+            position: relative;
+        }
+        .close-btn {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            font-size: 2rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        footer {
+            text-align: center;
+            padding: 50px 20px;
+            background: #0a0a14;
+            margin-top: 80px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>PYETRO GAMES</h1>
+        <p class="subtitle">Jogos divertidos direto no navegador • Sem instalação</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#jogos">Jogos</a></li>
+            <li><a href="#sobre">Sobre</a></li>
+        </ul>
+    </nav>
+
+    <div class="container" id="jogos">
+        <h2 style="text-align:center; margin-bottom:50px; font-size:2.8rem;">Escolha seu Jogo</h2>
+        
+        <div class="games-grid">
+            <div class="game-card">
+                <img src="https://via.placeholder.com/600x300/1e40af/ffffff?text=Jogo+da+Velha" alt="Jogo da Velha">
+                <div class="game-info">
+                    <h3>🎯 Jogo da Velha</h3>
+                    <p>Clássico contra a máquina. Tente vencer a IA!</p>
+                    <button class="play-btn" onclick="openGame(1)">Jogar Agora</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <img src="https://via.placeholder.com/600x300/166534/ffffff?text=Cobrinha" alt="Cobrinha">
+                <div class="game-info">
+                    <h3>🐍 Cobrinha Clássica</h3>
+                    <p>Coma as frutas e cresça sem bater nas paredes!</p>
+                    <button class="play-btn" onclick="openGame(2)">Jogar Agora</button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <img src="https://via.placeholder.com/600x300/b91c1c/ffffff?text=Flappy+Bird" alt="Flappy Bird">
+                <div class="game-info">
+                    <h3>🦅 Flappy Pyetro</h3>
+                    <p>Voar entre os obstáculos. Use ESPAÇO ou clique!</p>
+                    <button class="play-btn" onclick="openGame(3)">Jogar Agora</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="gameModal">
+        <div class="game-frame">
+            <button class="close-btn" onclick="closeGame()">×</button>
+            <div id="gameContent" style="min-width: 340px;"></div>
+        </div>
+    </div>
+
+    <div class="container" id="sobre">
+        <h2 style="text-align:center; margin:70px 0 30px;">Sobre o Pyetro Games</h2>
+        <p style="max-width:800px; margin:0 auto; text-align:center; font-size:1.25rem; opacity:0.9;">
+            Diversão garantida com jogos clássicos feitos especialmente para você.<br>
+            Todos rodam 100% no navegador!
+        </p>
+    </div>
+
+    <footer>
+        <p>❤️ Feito para Pyetro • 2026</p>
+    </footer>
+
+    <script>
+        let gameInterval = null;
+
+        function openGame(gameNumber) {
+            const modal = document.getElementById('gameModal');
+            const content = document.getElementById('gameContent');
+            modal.style.display = 'flex';
+
+            // Limpa intervalos anteriores
+            if (gameInterval) clearInterval(gameInterval);
+
+            if (gameNumber === 1) {
+                // Jogo da Velha
+                content.innerHTML = `
+                    <h2 style="text-align:center; color:#f0932b; margin-bottom:20px;">Jogo da Velha</h2>
+                    <div style="width:310px; margin:0 auto;">
+                        <div id="board" style="display:grid; grid-template-columns:repeat(3,1fr); width:300px; height:300px; gap:8px; background:#1e2937; padding:8px; border-radius:12px; margin:0 auto;"></div>
+                        <p id="status" style="text-align:center; margin-top:20px; font-size:1.4rem;">Sua vez (X)</p>
+                        <button onclick="resetTicTacToe()" style="display:block; margin:20px auto; padding:12px 30px; background:#64748b; color:white; border:none; border-radius:50px; cursor:pointer;">Reiniciar</button>
+                    </div>
+                `;
+                createBoard();
+            } 
+            else if (gameNumber === 2) {
+                // Cobrinha
+                content.innerHTML = `
+                    <h2 style="text-align:center; color:#f0932b; margin-bottom:15px;">🐍 Cobrinha</h2>
+                    <canvas id="snakeCanvas" width="400" height="400" style="border:5px solid #334155; background:#0f172a; display:block; margin:0 auto;"></canvas>
+                    <p style="text-align:center; margin-top:15px; font-size:1.2rem;">Pontuação: <strong id="snakeScore">0</strong></p>
+                    <p style="text-align:center; font-size:0.9rem; opacity:0.7;">Use as setas do teclado</p>
+                `;
+                setTimeout(initSnakeGame, 50);
+            } 
+            else if (gameNumber === 3) {
+                // Flappy Bird
+                content.innerHTML = `
+                    <h2 style="text-align:center; color:#f0932b; margin-bottom:15px;">🦅 Flappy Pyetro</h2>
+                    <canvas id="flappyCanvas" width="340" height="480" style="border:5px solid #334155; background:#0f172a; display:block; margin:0 auto;"></canvas>
+                    <p style="text-align:center; margin-top:15px; font-size:1rem;">Pressione ESPAÇO ou clique para voar</p>
+                `;
+                setTimeout(initFlappyGame, 50);
+            }
+        }
+
+        function closeGame() {
+            const modal = document.getElementById('gameModal');
+            modal.style.display = 'none';
+            if (gameInterval) {
+                clearInterval(gameInterval);
+                gameInterval = null;
+            }
+        }
+
+        // ===================== JOGO DA VELHA =====================
+        let boardState = [];
+        let currentPlayerTTT = 'X';
+
+        function createBoard() {
+            boardState = Array(9).fill(null);
+            currentPlayerTTT = 'X';
+            const boardEl = document.getElementById('board');
+            boardEl.innerHTML = '';
+
+            for (let i = 0; i < 9; i++) {
+                const cell = document.createElement('button');
+                cell.style.cssText = 'width:100%; height:100%; font-size:70px; background:#1e2937; color:#fff; border:none; cursor:pointer; border-radius:8px;';
+                cell.dataset.index = i;
+                cell.addEventListener('click', handleTTTClick);
+                boardEl.appendChild(cell);
+            }
+            document.getElementById('status').textContent = 'Sua vez (X)';
+        }
+
+        function handleTTTClick(e) {
+            const index = parseInt(e.target.dataset.index);
+            if (boardState[index]) return;
+
+            boardState[index] = currentPlayerTTT;
+            e.target.textContent = currentPlayerTTT;
+            e.target.style.color = currentPlayerTTT === 'X' ? '#67e8f9' : '#f472b6';
+
+            if (checkWinner()) {
+                document.getElementById('status').innerHTML = `🎉 ${currentPlayerTTT} VENCEU!`;
+                return;
+            }
+            if (!boardState.includes(null)) {
+                document.getElementById('status').textContent = 'Empate!';
+                return;
+            }
+
+            currentPlayerTTT = currentPlayerTTT === 'X' ? 'O' : 'X';
+            document.getElementById('status').textContent = `Vez do ${currentPlayerTTT}`;
+        }
+
+        function checkWinner() {
+            const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+            return wins.some(([a,b,c]) => 
+                boardState[a] && boardState[a] === boardState[b] && boardState[a] === boardState[c]
+            );
+        }
+
+        function resetTicTacToe() {
+            createBoard();
+        }
+
+        // ===================== COBRINHA =====================
+        let snake, dx, dy, food, scoreSnake, snakeCtx, snakeCanvas;
+
+        function initSnakeGame() {
+            snakeCanvas = document.getElementById('snakeCanvas');
+            snakeCtx = snakeCanvas.getContext('2d');
+
+            snake = [{x: 10, y: 10}];
+            dx = 1;
+            dy = 0;
+            scoreSnake = 0;
+            document.getElementById('snakeScore').textContent = '0';
+            placeFood();
+
+            document.addEventListener('keydown', snakeControls);
+
+            if (gameInterval) clearInterval(gameInterval);
+            gameInterval = setInterval(snakeGameLoop, 110);
+        }
+
+        function placeFood() {
+            food = {
+                x: Math.floor(Math.random() * 19),
+                y: Math.floor(Math.random() * 19)
+            };
+        }
+
+        function snakeControls(e) {
+            if (document.getElementById('gameModal').style.display !== 'flex') return;
+            switch(e.key) {
+                case 'ArrowUp':    if (dy !== 1) { dx = 0; dy = -1; } break;
+                case 'ArrowDown':  if (dy !== -1) { dx = 0; dy = 1; } break;
+                case 'ArrowLeft':  if (dx !== 1) { dx = -1; dy = 0; } break;
+                case 'ArrowRight': if (dx !== -1) { dx = 1; dy = 0; } break;
+            }
+        }
+
+        function snakeGameLoop() {
+            if (!snakeCtx) return;
+
+            const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+
+            // Colisão parede
+            if (head.x < 0 || head.x >= 20 || head.y < 0 || head.y >= 20) {
+                clearInterval(gameInterval);
+                alert(`Game Over! Pontuação: ${scoreSnake}`);
+                return;
+            }
+
+            // Colisão consigo
+            if (snake.some(s => s.x === head.x && s.y === head.y)) {
+                clearInterval(gameInterval);
+                alert(`Game Over! Pontuação: ${scoreSnake}`);
+                return;
+            }
+
+            snake.unshift(head);
+
+            // Comeu comida?
+            if (head.x === food.x && head.y === food.y) {
+                scoreSnake += 10;
+                document.getElementById('snakeScore').textContent = scoreSnake;
+                placeFood();
+            } else {
+                snake.pop();
+            }
+
+            // Desenhar
+            snakeCtx.fillStyle = '#0f172a';
+            snakeCtx.fillRect(0, 0, 400, 400);
+
+            snakeCtx.fillStyle = '#4ade80';
+            snake.forEach(part => {
+                snakeCtx.fillRect(part.x * 20 + 1, part.y * 20 + 1, 18, 18);
+            });
+
+            snakeCtx.fillStyle = '#f87171';
+            snakeCtx.fillRect(food.x * 20 + 1, food.y * 20 + 1, 18, 18);
+        }
+
+        // ===================== FLAPPY BIRD =====================
+        let birdY, birdVel, pipes, flappyScore, flappyCtx, flappyCanvas;
+
+        function initFlappyGame() {
+            flappyCanvas = document.getElementById('flappyCanvas');
+            flappyCtx = flappyCanvas.getContext('2d');
+
+            birdY = 200;
+            birdVel = 0;
+            pipes = [{x: 340, gap: 160, top: 180}];
+            flappyScore = 0;
+
+            document.addEventListener('keydown', flappyControl);
+            flappyCanvas.addEventListener('click', flappyControl);
+
+            if (gameInterval) clearInterval(gameInterval);
+            gameInterval = setInterval(flappyGameLoop, 20);
+        }
+
+        function flappyControl(e) {
+            if (document.getElementById('gameModal').style.display === 'flex' && (e.key === ' ' || e.type === 'click')) {
+                birdVel = -9;
+                e.preventDefault();
+            }
+        }
+
+        function flappyGameLoop() {
+            if (!flappyCtx) return;
+
+            birdVel += 0.45;
+            birdY += birdVel;
+
+            // Gerar novos canos
+            if (pipes[pipes.length - 1].x < 180) {
+                const top = Math.random() * 180 + 80;
+                pipes.push({x: 380, gap: 160, top: top});
+            }
+
+            // Mover canos
+            for (let i = 0; i < pipes.length; i++) {
+                pipes[i].x -= 1.8;
+            }
+
+            if (pipes[0].x < -60) pipes.shift();
+
+            // Colisão
+            if (birdY > 460 || birdY < 0) {
+                clearInterval(gameInterval);
+                alert(`Game Over! Pontuação: ${flappyScore}`);
+                return;
+            }
+
+            // Desenhar
+            flappyCtx.fillStyle = '#0f172a';
+            flappyCtx.fillRect(0, 0, 340, 480);
+
+            // Pássaro
+            flappyCtx.fillStyle = '#fcd34d';
+            flappyCtx.fillRect(70, birdY, 32, 26);
+
+            // Canos
+            flappyCtx.fillStyle = '#4ade80';
+            for (let pipe of pipes) {
+                flappyCtx.fillRect(pipe.x, 0, 55, pipe.top);
+                flappyCtx.fillRect(pipe.x, pipe.top + pipe.gap, 55, 480);
+            }
+
+            // Pontuação simples
+            flappyScore = Math.max(flappyScore, Math.floor((380 - pipes[0].x) / 55));
+        }
+
+        // Fechar com ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === "Escape") {
+                closeGame();
+            }
+        });
+    </script>
+</body>
+</html>
